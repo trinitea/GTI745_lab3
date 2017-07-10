@@ -8,6 +8,7 @@ public class Instrument : MonoBehaviour {
 
     public bool initialized { get; private set; }
     public bool activated { get; set; }
+    public Color glowColor;
 
     [SerializeField]
     private AudioSource[] soundSources;
@@ -53,6 +54,8 @@ public class Instrument : MonoBehaviour {
 
     public void PlayNotes(int part)
     {
+        if (!activated) return;
+
         for (int y = 0; y < nbNotesInRange; y ++)
         {
             if (noteMatrix[part, y])

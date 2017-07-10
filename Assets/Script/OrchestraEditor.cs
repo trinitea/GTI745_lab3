@@ -5,22 +5,29 @@ using UnityEngine;
 
 public class OrchestraEditor : MonoBehaviour {
 
-    private List<Instrument> instruments;
+    private List<InteractableImage> instruments; // the images contains the instrument
     private Instrument currentInstrument;
 
 	// Use this for initialization
 	void Start () {
-		instruments = FindObjectsOfType<Instrument>().ToList();
+		List<InteractableImage> allInteractableImages = FindObjectsOfType<InteractableImage>().ToList();
         
     }
 
-    public void changeInstrument(Instrument instrument)
+    public void editInstrument(Instrument instrument)
     {
-        if (currentInstrument == instrument || !instruments.Contains(instrument)) return;
+        if (currentInstrument == instrument) return;
+
+        foreach (InteractableImage image in instruments)
+        {
+            image.SetSelected(image.GetInstrument() == instrument);
+        }
 
         currentInstrument = instrument;
 
         // set grid
+
+
         // set color
     }
 

@@ -64,7 +64,6 @@ public class MaestroCameraController : MonoBehaviour {
 
 
         // Raycast
-        
         List<RaycastResult> hits = new List<RaycastResult>();
 
         ped = new PointerEventData(EventSystem.current);
@@ -126,6 +125,14 @@ public class MaestroCameraController : MonoBehaviour {
         {
             case InteractableType.PHYSICAL:
                 crosshair.sprite = physicInteractCrosshair;
+                break;
+
+            case InteractableType.UI:
+                crosshair.sprite = uiCrosshair;
+                break;
+
+            case InteractableType.PARTY:
+                crosshair.sprite = partyCrosshair;
                 break;
 
             default:
