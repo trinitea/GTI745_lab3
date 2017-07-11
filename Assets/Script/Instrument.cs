@@ -6,6 +6,8 @@ public class Instrument : MonoBehaviour {
 
     public string name;
 
+	public Light spotLight;
+
     public bool initialized { get; private set; }
     public bool activated { get; set; }
     public Color glowColor;
@@ -64,4 +66,10 @@ public class Instrument : MonoBehaviour {
             }
         }
     }
+
+	public void ToggleSpotLight()
+	{
+		spotLight.enabled = !spotLight.enabled;
+		activated = spotLight.enabled;
+	}
 }

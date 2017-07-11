@@ -15,6 +15,8 @@ public class SwitchOnOff : MonoBehaviour, IInteractable {
     private SwitchState state;
     private Animation anim;
 
+	public GameObject instrumentGameObject;
+
     enum SwitchState
     {
         OFF,
@@ -60,20 +62,21 @@ public class SwitchOnOff : MonoBehaviour, IInteractable {
 
     #endregion
 
-    private void SwapState()
-    {
-        switch(state)
-        {
-            case SwitchState.OFF:
-                anim.Play(turningOnAnimationName);
-                state = SwitchState.ON;
-                break;
+	private void SwapState ()
+	{
+		switch (state) {
+		case SwitchState.OFF:
+			anim.Play (turningOnAnimationName);
+			state = SwitchState.ON;
+			instrumentGameObject.GetComponent<Instrument> ().ToggleSpotLight();
+			break;
 
-            case SwitchState.ON:
-                anim.Play(turningOffAnimationName);
-                state = SwitchState.OFF;
-                break;
-        }
-    }
+		case SwitchState.ON:
+			anim.Play (turningOffAnimationName);
+			state = SwitchState.OFF;
+			instrumentGameObject.GetComponent<Instrument> ().ToggleSpotLight();
+			break;
+		}
+	}
 
 }
