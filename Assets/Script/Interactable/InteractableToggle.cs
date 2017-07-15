@@ -7,26 +7,46 @@ using UnityEngine.UI;
 
 public class InteractableToggle : Image, IInteractable {
 
-    public static Image normalBackground;
-    public static Image activatedBackground;
+    public Sprite normalBackground;
+    public Sprite activatedBackground;
 
     public bool activated { get; private set; }
 
-    [SerializeField]
+    public int x;
+    public int y;
+    
     private OrchestraEditor editor;
 
+    void Awake()
+    {
+        base.Awake();
+
+        editor = GameObject.FindGameObjectWithTag("OrchestraEditor").GetComponent<OrchestraEditor>();
+        editor.registerToggle(this, x, y);
+    }
+    
     public void Toogle()
     {
-        activated = !activated;
+        SetState(!activated);
+    }
+
+    public void SetState(bool state)
+    {
+        activated = state;
 
         if (activated)
         {
-            sprite = activatedBackground.sprite;
+            sprite = activatedBackground;
         }
         else
         {
-            sprite = normalBackground.sprite;
+            sprite = normalBackground;
         }
+    }
+
+    public void SetColor(Color newColor)
+    {
+        color = newColor;
     }
 
     public string DebugText()
@@ -41,9 +61,10 @@ public class InteractableToggle : Image, IInteractable {
 
     public void OnInteract()
     {
-        //if (editor == null || instrument == null) return;
+        if (editor == null) return;
 
-        //editor.editInstrument(instrument);
+        editor.triggerGrid(x,y);
+        SetState(editor.currentInstrument.GetNoteState(x, y));
     }
 
     public void OnLookAtEnd(PointerEventData ped)

@@ -15,7 +15,9 @@ public class SwitchOnOff : MonoBehaviour, IInteractable {
     private SwitchState state;
     private Animation anim;
 
-	public GameObject instrumentGameObject;
+	public Instrument instrument;
+
+    public List<Light> spotLights;
 
     enum SwitchState
     {
@@ -26,7 +28,13 @@ public class SwitchOnOff : MonoBehaviour, IInteractable {
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animation>();
-	}
+
+        foreach(Light light in spotLights)
+        {
+            light.color = instrument.glowColor;
+            light.enabled = instrument.activated;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -65,18 +73,28 @@ public class SwitchOnOff : MonoBehaviour, IInteractable {
 	private void SwapState ()
 	{
 		switch (state) {
-		case SwitchState.OFF:
-			anim.Play (turningOnAnimationName);
-			state = SwitchState.ON;
-			instrumentGameObject.GetComponent<Instrument> ().ToggleSpotLight();
-			break;
+		    case SwitchState.OFF:
+			    anim.Play (turningOnAnimationName);
+			    state = SwitchState.ON;
+			    instrument.activated = true;
+                turnOnOff(true);
+                break;
 
-		case SwitchState.ON:
-			anim.Play (turningOffAnimationName);
-			state = SwitchState.OFF;
-			instrumentGameObject.GetComponent<Instrument> ().ToggleSpotLight();
-			break;
+		    case SwitchState.ON:
+			    anim.Play (turningOffAnimationName);
+			    state = SwitchState.OFF;
+                instrument.activated = false;
+                turnOnOff(false);
+                break;
 		}
 	}
+
+    private void turnOnOff(bool state)
+    {
+        foreach(Light light in spotLights)
+        {
+            light.enabled = state;
+        }
+    }
 
 }

@@ -5,20 +5,21 @@ using UnityEngine;
 public class Instrument : MonoBehaviour {
 
     public string name;
-
-	public Light spotLight;
+    public float masterVolume = 1.0f;
 
     public bool initialized { get; private set; }
     public bool activated { get; set; }
+
     public Color glowColor;
+    public Sprite icon;
 
     [SerializeField]
     private AudioSource[] soundSources;
 
     private bool[,] noteMatrix;
 
-    private int nbNotesInRange = 5;
-    private int rangeSize = 10;
+    public int nbNotesInRange { get; private set; }
+    public int rangeSize { get; private set; }
 
 	// Use this for initialization
 
@@ -35,24 +36,13 @@ public class Instrument : MonoBehaviour {
             for (int y = 0; y < nbNotesInRange; y++)
                 noteMatrix[x, y] = false;
 
+        foreach(AudioSource source in soundSources)
+        {
+            source.volume = masterVolume;
+        }
 
-        // test
-        noteMatrix[0, 0] = true;
-        noteMatrix[0, 1] = true;
-        noteMatrix[0, 2] = true;
-        noteMatrix[0, 3] = true;
-        noteMatrix[0, 4] = true;
-        noteMatrix[3,0] = true;
-        noteMatrix[6, 1] = true;
-        noteMatrix[6, 2] = true;
+        activated = false;
     }
-
-    // Update is called once per frame
-    /*
-    void Update () {
-		
-	}
-    */
 
     public void PlayNotes(int part)
     {
@@ -67,9 +57,21 @@ public class Instrument : MonoBehaviour {
         }
     }
 
-	public void ToggleSpotLight()
-	{
-		spotLight.enabled = !spotLight.enabled;
-		activated = spotLight.enabled;
-	}
+    public void PlayArbitraryNote(int note)
+    {
+        if (note < 0 || note >= soundSources.Length) return;
+        soundSources[note].Play();
+    }
+
+    public bool GetNoteState(int x, int y)
+    {
+        if (x < 0 || x >= rangeSize || y < 0 || y >= nbNotesInRange) return false;
+
+        return noteMatrix[x, y];
+    }
+
+    public void ToggleNote(int x, int y)
+    {
+        noteMatrix[x, y] = !noteMatrix[x, y];
+    }
 }

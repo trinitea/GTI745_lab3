@@ -16,6 +16,13 @@ public class InteractableImage : Image, IInteractable {
     [SerializeField]
     private Image subImage;
 
+    void Start()
+    {
+        base.Start();
+
+        subImage.sprite = instrument.icon;
+    }
+
     public Instrument GetInstrument()
     {
         return instrument;
@@ -32,8 +39,8 @@ public class InteractableImage : Image, IInteractable {
         }
         else
         {
-            color = Color.white;
-            subImage.color = Color.white;
+            color = new Color(1.0f, 1.0f, 1.0f, 0.7843f);
+            subImage.color = new Color(1.0f, 1.0f, 1.0f, 0.7843f);
         }
     }
 
