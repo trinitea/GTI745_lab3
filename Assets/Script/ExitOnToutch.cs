@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ExitOnToutch : MonoBehaviour {
-
-	// Use this for initialization
-	void OnCollisionEnter()
+    
+    void OnTriggerEnter(Collider other)
     {
-        Application.Quit();
+        if (other.tag == "Maestro")
+        {
+
+            Debug.Log("Someone is in");
+            Application.Quit();
+        }
     }
 }

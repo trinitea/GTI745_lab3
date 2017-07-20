@@ -41,8 +41,7 @@ public class MaestroCameraController : MonoBehaviour {
 
         crosshair.sprite = normalCrosshair;
 
-        //ped = new PointerEventData(EventSystem.current);
-        //ped.position = new Vector2(0.5f, 0.5f);
+        debugText.enabled = false;
     }
 
     // Update is called once per frame

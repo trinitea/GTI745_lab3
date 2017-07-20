@@ -29,6 +29,9 @@ public class OrchestraController : MonoBehaviour {
     [SerializeField]
     private List<Image> playingNotifiers;
 
+    [SerializeField]
+    private AudioSource backgroundMusic;
+
     // TimeLine animation
     [SerializeField]
     private Image timeLine;
@@ -48,6 +51,9 @@ public class OrchestraController : MonoBehaviour {
         {
             instruments[i].Initialize(timeLineSize);
         }
+
+        backgroundMusic.loop = true;
+        backgroundMusic.Play();
     }
 	// Use this for initialization
 	void Start () {
@@ -104,6 +110,8 @@ public class OrchestraController : MonoBehaviour {
         {
             notifier.enabled = true;
         }
+
+        backgroundMusic.Stop();
     }
 
     private void StopPlaying()
@@ -116,6 +124,8 @@ public class OrchestraController : MonoBehaviour {
         {
             notifier.enabled = false;
         }
+
+        backgroundMusic.Play();
     }
 
     enum OrchestraStatus
